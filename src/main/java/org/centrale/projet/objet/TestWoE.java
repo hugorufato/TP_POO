@@ -166,8 +166,19 @@ public class TestWoE {
     
     System.out.println("");
     System.out.println("//////////////////////////////// FIN TEST COMBATTRE ////////////////////////////////");
+    System.out.println("");
+    System.out.println("//////////////////////////////// TEST POTION ////////////////////////////////");
+    System.out.println("");
     
+    world1.potion1.getpos().setX(world1.grosBill.getpos().getX());
+    world1.potion1.getpos().setY(world1.grosBill.getpos().getY());
+    if(world1.grosBill.getpos().getX() == world1.potion1.getpos().getX() && world1.grosBill.getpos().getY() == world1.potion1.getpos().getY()){
+        world1.grosBill.setptVie(world1.grosBill.getptVie()+world1.potion1.getptVie());
+        world1.potion1 = null;
+    }
+    world1.grosBill.affiche();
+    System.out.println(world1.potion1.getptVie());
     
-
+    System.out.println("//////////////////////////////// FIN TEST POTION ////////////////////////////////");
      }
 }

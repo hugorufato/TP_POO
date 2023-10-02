@@ -4,6 +4,7 @@
 
 package org.centrale.projet.objet;
 import java.util.Random; 
+import java.util.ArrayList;
 
 /**
  *
@@ -16,6 +17,13 @@ public class World {
     public Lapin bugs1,bugs2;
     public Guerrier grosBill;
     public Loup wolfie;
+    public PotionSoin potion1,potion2,potion3,potion4;
+    public ArrayList<Archer> archers;
+    public ArrayList<Paysan> paysans;
+    public ArrayList<Lapin> lapins;
+    public ArrayList<Guerrier> guerriers;
+    public ArrayList<Loup> loups;
+    
     
     public World(){
         robin = new Archer();
@@ -28,10 +36,14 @@ public class World {
         bugs2 = new Lapin();
         grosBill = new Guerrier();
         wolfie = new Loup();
+        potion1 = new PotionSoin();
+        potion2 = new PotionSoin();
+        potion3 = new PotionSoin();
+        potion4 = new PotionSoin();
         
-        
-        
-        
+        archers = new ArrayList();
+        paysans = new ArrayList();
+        lapins = new ArrayList();
         
         
         
@@ -83,6 +95,7 @@ public class World {
         
         
         public void TourDeJeu(){
+            
         
         }
         

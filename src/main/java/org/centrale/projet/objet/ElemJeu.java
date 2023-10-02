@@ -8,15 +8,6 @@ package org.centrale.projet.objet;
  *
  * @author ADM
  */
-public class PotionSoin extends Objet {
+public class ElemJeu {
     
-    public PotionSoin(int pt, Point2D pos){
-    super(pt,0,0,0,0,pos);
-    }
-    public PotionSoin(PotionSoin p){
-     super((Objet) p);
-    }
-    public PotionSoin(){
-    super(5,0,0,0,0,new Point2D());
-    }
 }
