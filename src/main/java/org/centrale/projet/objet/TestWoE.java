@@ -95,8 +95,8 @@ public class TestWoE {
     System.out.println("POSITION: ["+l1.getpos().getX()+";"+l1.getpos().getY()+"]");
     System.out.println("");
     System.out.println("TEST DEPLACE");
-    A1.deplace(2,-1);
-    l1.deplace(1, -1);
+    A1.deplace();
+    l1.deplace();
     System.out.println("A1 POSITION: ["+A1.getpos().getX()+";"+A1.getpos().getY()+"]"); 
     System.out.println("l1 POSITION: ["+l1.getpos().getX()+";"+l1.getpos().getY()+"]");
     System.out.println("");
@@ -108,11 +108,64 @@ public class TestWoE {
     world1.robin.affiche();
     world1.guillaumeT.affiche();
     world1.peon.affiche();
-    System.out.println("Personnage: Bugs");
-    world1.bugs.affiche();
+    world1.grosBill.affiche();
+    System.out.println("Personnage: Bugs1");
+    world1.bugs1.affiche();
+    System.out.println("Personnage: Bugs2");
+    world1.bugs2.affiche();
+    System.out.println("Personnage: wolfie");
+    world1.wolfie.affiche();
     System.out.println("");
     System.out.println("//////////////////////////////// FIN TEST WORLD ALEATOIRE ////////////////////////////////");
+    System.out.println("");
+    System.out.println("//////////////////////////////// TEST COMBATTRE ////////////////////////////////");
+    world1.robin.getpos().setPosition(5, 5);
+    world1.guillaumeT.getpos().setPosition(12, 12);
+    world1.bugs1.getpos().setPosition(6,5);
+    world1.bugs2.getpos().setPosition(10,10);
+    world1.grosBill.getpos().setPosition(3,3);
+    world1.wolfie.getpos().setPosition(4,3);
     
+    System.out.println("Combattre: Robin x bugs1");
+    world1.robin.combattre(world1.bugs1);
+    world1.robin.affiche();
+    System.out.println("nbFleches = "+world1.robin.getnbFleches());
+    System.out.println("Personnage: bugs1");
+    world1.bugs1.affiche();
+    
+    System.out.println("");
+    System.out.println("Combattre: Robin x bugs2");
+    world1.robin.combattre(world1.bugs2);
+    world1.robin.affiche();
+    System.out.println("nbFleches = "+world1.robin.getnbFleches());
+    System.out.println("Personnage: bugs2");
+    world1.bugs2.affiche();
+    System.out.println("");
+    
+    System.out.println("Combattre: GuillaumeT x bugs1");
+    world1.guillaumeT.combattre(world1.bugs1);
+    world1.guillaumeT.affiche();
+    System.out.println("nbFleches = "+world1.guillaumeT.getnbFleches());
+    System.out.println("Personnage: bugs1");
+    world1.bugs1.affiche();
+    System.out.println("");
+    
+    System.out.println("Combattre: GuillaumeT x bugs2");
+    world1.guillaumeT.combattre(world1.bugs2);
+    world1.guillaumeT.affiche();
+    System.out.println("nbFleches = "+world1.guillaumeT.getnbFleches());
+    System.out.println("Personnage: bugs2");
+    world1.bugs2.affiche();
+    
+    System.out.println("");
+    System.out.println("Combattre: grosBill x wolfie");
+    world1.grosBill.combattre(world1.wolfie);
+    world1.grosBill.affiche();
+    System.out.println("Personnage: wolfie");
+    world1.wolfie.affiche();
+    
+    System.out.println("");
+    System.out.println("//////////////////////////////// FIN TEST COMBATTRE ////////////////////////////////");
     
     
 

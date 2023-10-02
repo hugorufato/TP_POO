@@ -13,7 +13,9 @@ public class World {
     
     public Archer robin,guillaumeT;
     public Paysan peon;
-    public Lapin bugs;
+    public Lapin bugs1,bugs2;
+    public Guerrier grosBill;
+    public Loup wolfie;
     
     public World(){
         robin = new Archer();
@@ -22,8 +24,17 @@ public class World {
         guillaumeT.setNom("GuillaumeT");
         peon = new Paysan();
         peon.setNom("Peon");
-        bugs = new Lapin();
-        creerMondeAlea();
+        bugs1 = new Lapin();
+        bugs2 = new Lapin();
+        grosBill = new Guerrier();
+        wolfie = new Loup();
+        
+        
+        
+        
+        
+        
+        
     }
     
     public void creerMondeAlea(){
@@ -44,7 +55,7 @@ public class World {
         rX = generateurAleatoire.nextInt(100);
         rY = generateurAleatoire.nextInt(100);
     }
-        bugs.getpos().setPosition(rX,rY);
+        bugs1.getpos().setPosition(rX,rY);
         
         
    }
@@ -67,8 +78,17 @@ public class World {
         rX = generateurAleatoire.nextInt(taille);
         rY = generateurAleatoire.nextInt(taille);
     }
-        bugs.getpos().setPosition(rX,rY);
+        bugs1.getpos().setPosition(rX,rY);
    }
+        
+        
+        public void TourDeJeu(){
+        
+        }
+        
+        public void afficheWorld(){
+        
+        }
 
 }
 
