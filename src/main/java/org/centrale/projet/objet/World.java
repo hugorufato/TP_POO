@@ -5,6 +5,7 @@
 package org.centrale.projet.objet;
 import java.util.Random; 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  *
@@ -23,8 +24,11 @@ public class World {
     public ArrayList<Lapin> lapins;
     public ArrayList<Guerrier> guerriers;
     public ArrayList<Loup> loups;
+    public ArrayList<Creature> creatures;
+    public LinkedList<Personnage> personnages;
+    public int countvie,nombreProt;
     
-    
+  
     public World(){
         robin = new Archer();
         robin.setNom("Robin");
@@ -44,6 +48,12 @@ public class World {
         archers = new ArrayList();
         paysans = new ArrayList();
         lapins = new ArrayList();
+        guerriers = new ArrayList();
+        loups = new ArrayList();
+        creatures = new ArrayList();
+        personnages = new LinkedList();
+        countvie = 0;
+        nombreProt = 1000000;
         
         
         
@@ -51,49 +61,67 @@ public class World {
     
     public void creerMondeAlea(){
         
-        Random generateurAleatoire = new Random();
-        int rX = generateurAleatoire.nextInt(100);
-        int rY = generateurAleatoire.nextInt(100);
-
-        robin.getpos().setPosition(rX,rY);
-        
-        while(rX == robin.getpos().getX() && rY == robin.getpos().getY()){
-        rX = generateurAleatoire.nextInt(100);
-        rY = generateurAleatoire.nextInt(100);
-        }
-        peon.getpos().setPosition(rX,rY);
-        
-         while(rX == robin.getpos().getX() && rY == robin.getpos().getY() || rX == peon.getpos().getX() && rY == peon.getpos().getY() ){
-        rX = generateurAleatoire.nextInt(100);
-        rY = generateurAleatoire.nextInt(100);
+        Random aleat = new Random();
+        int nombre = aleat.nextInt(100);
+           for(int i=0;i<nombre;i++){
+             archers.add(new Archer());
+           }
+        nombre = aleat.nextInt(100);
+           for(int i=0;i<nombre;i++){
+             paysans.add(new Paysan());
+           }
+        nombre = aleat.nextInt(100);
+           for(int i=0;i<nombre;i++){
+             lapins.add(new Lapin());
+           }
+        nombre = aleat.nextInt(100);
+           for(int i=0;i<nombre;i++){
+             guerriers.add(new Guerrier());
+           }
+        nombre = aleat.nextInt(100);
+           for(int i=0;i<nombre;i++){
+             loups.add(new Loup());
+           }
+           
+           ////////////////////////////////////////
+//         for(int i=0;i<archers.size();i++){
+//         creatures.add(archers.get(i));
+//         }
+//         for(int i=0;i<paysans.size();i++){
+//         creatures.add(paysans.get(i));
+//         }
+//         for(int i=0;i<guerriers.size();i++){
+//         creatures.add(guerriers.get(i));
+//         }
+//         
+//         for(int i=0;i<creatures.size();i++){
+//         countvie = creatures.get(i).getptVie()+countvie;
+//         }
+          ///////////////////////////////////////////
+         //TEST TEMPS
+         
+//         System.out.println("Mesure de temps avec "+nombreProt+" personnages");
+//         for(int i=0;i<nombreProt/4;i++){
+//             personnages.add(new Archer());
+//             personnages.add(new Paysan());
+//             personnages.add(new Guerrier());
+//             personnages.add(new Archer());
+//         }
+//         countvie=0;
+//         long debut = System.nanoTime();
+//         for(int i=0;i<personnages.size();i++){
+//         countvie = personnages.get(i).getptVie()+countvie;
+//         }
+//         long fin = System.nanoTime();
+//         System.out.println("temps boucle basée sur la taille: "+(fin-debut)+"ns");
+//         debut = System.nanoTime();
+//         for(Personnage p:personnages){
+//         countvie = p.getptVie()+countvie;
+//         }
+//         fin = System.nanoTime();
+//         System.out.println("temps boucle basée sur les itérateurs: "+(fin-debut)+"ns"); 
+         
     }
-        bugs1.getpos().setPosition(rX,rY);
-        
-        
-   }
-    
-        public void creerMondeAlea(int taille){
-        
-        Random generateurAleatoire = new Random();
-        int rX = generateurAleatoire.nextInt(taille);
-        int rY = generateurAleatoire.nextInt(taille);
-
-        robin.getpos().setPosition(rX,rY);
-        
-        while(rX == robin.getpos().getX() && rY == robin.getpos().getY()){
-        rX = generateurAleatoire.nextInt(taille);
-        rY = generateurAleatoire.nextInt(taille);
-        }
-        peon.getpos().setPosition(rX,rY);
-        
-         while(rX == robin.getpos().getX() && rY == robin.getpos().getY() || rX == peon.getpos().getX() && rY == peon.getpos().getY() ){
-        rX = generateurAleatoire.nextInt(taille);
-        rY = generateurAleatoire.nextInt(taille);
-    }
-        bugs1.getpos().setPosition(rX,rY);
-   }
-        
-        
         public void TourDeJeu(){
             
         
