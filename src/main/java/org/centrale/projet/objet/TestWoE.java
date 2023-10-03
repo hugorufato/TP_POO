@@ -10,6 +10,7 @@ package org.centrale.projet.objet;
  */
 public class TestWoE {
      public static void main(String[] args){
+         long debut = System.nanoTime();
     //INITIALIZATION DES POINTS
      Point2D point1 = new Point2D(5,5);
      Point2D point2 = new Point2D(7,5);
@@ -105,17 +106,12 @@ public class TestWoE {
     System.out.println("//////////////////////////////// TEST WORLD ALEATOIRE ////////////////////////////////");
     World world1 = new World();
     world1.creerMondeAlea();
-    world1.robin.affiche();
-    world1.guillaumeT.affiche();
-    world1.peon.affiche();
-    world1.grosBill.affiche();
-    System.out.println("Personnage: Bugs1");
-    world1.bugs1.affiche();
-    System.out.println("Personnage: Bugs2");
-    world1.bugs2.affiche();
-    System.out.println("Personnage: wolfie");
-    world1.wolfie.affiche();
-    System.out.println("");
+    System.out.println("nombre de archers: "+world1.archers.size());
+    System.out.println("nombre de paysans: "+world1.paysans.size());
+    System.out.println("nombre de guerriers: "+world1.guerriers.size());
+    System.out.println("nombre de lapins: "+world1.lapins.size());
+    System.out.println("nombre de loups: "+world1.loups.size());
+    System.out.println("Point de vie de l'ensemble de personnage: "+world1.countvie);
     System.out.println("//////////////////////////////// FIN TEST WORLD ALEATOIRE ////////////////////////////////");
     System.out.println("");
     System.out.println("//////////////////////////////// TEST COMBATTRE ////////////////////////////////");
@@ -177,8 +173,10 @@ public class TestWoE {
         world1.potion1 = null;
     }
     world1.grosBill.affiche();
-    System.out.println(world1.potion1.getptVie());
+    System.out.println(world1.potion1);
     
     System.out.println("//////////////////////////////// FIN TEST POTION ////////////////////////////////");
+     long fin = System.nanoTime();
+     System.out.println("temps en ns: "+(fin-debut));
      }
 }
