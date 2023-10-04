@@ -80,6 +80,7 @@ public class Guerrier extends Personnage {
             System.out.println("ATAQUE À DISTANCE");
             Random naleat = new Random();
             int rand1 = naleat.nextInt(100);
+            System.out.println("Jet de dés d'attaque:"+rand1);
             if(rand1<=pageAt){
             //Attaque réussie
              c.setptVie(c.getptVie()-degAt);
