@@ -52,10 +52,12 @@ public class Guerrier extends Personnage {
             System.out.println("ATAQUE CONTACT");
             Random naleat = new Random();
             int rand1 = naleat.nextInt(100);
+            System.out.println("Jet de dés d'attaque:"+rand1);
             if(rand1<=pageAt){
             //Attaque réussie
             System.out.println("ATAQUE RÉUSSIE");
               int rand2 = naleat.nextInt(100);
+              System.out.println("Jet de dés de défence"+rand2);
               if(rand2>c.getpagePar()){
               c.setptVie(c.getptVie()-degAt);
               }
