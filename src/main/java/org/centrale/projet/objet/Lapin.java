@@ -5,19 +5,39 @@
 package org.centrale.projet.objet;
 
 /**
+ * Sous classe Lapin
  *
- * @author ADM
+ * @author hugorufato et luanlopesf
  */
 public class Lapin extends Monstre {
-    
-    public Lapin(int pV,int dA, int pPar, int paAtt, int paPar,Point2D p){
-    super(pV,dA,pPar,paAtt,paPar,p);
+
+    /**
+     * Constructor dont les paramètres sont les caracteristiques
+     *
+     * @param pV Points de vie
+     * @param dA Dégâts d'attaque
+     * @param pPar Points de parade
+     * @param paAtt Pourcentage d'attaque
+     * @param paPar Pourcentage de parade
+     * @param p Position
+     */
+    public Lapin(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p) {
+        super(pV, dA, pPar, paAtt, paPar, p);
     }
-    public Lapin(Lapin l){
-     super((Monstre)l);
+
+    /** Constructor que copie un objet lapin
+     *
+     * @param l Objet type lapin
+     */
+    public Lapin(Lapin l) {
+        super((Monstre) l);
     }
-    public Lapin(){
-    super();
+
+    /**Constructor sans paramètres
+     *
+     */
+    public Lapin() {
+        super();
     }
-    
+
 }

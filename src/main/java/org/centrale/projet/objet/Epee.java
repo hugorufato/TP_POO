@@ -6,7 +6,7 @@ package org.centrale.projet.objet;
 
 /**
  *
- * @author ADM
+ * @author hugorugato et luanlopesf
  */
 public class Epee extends Objet{
     

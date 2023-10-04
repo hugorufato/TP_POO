@@ -6,15 +6,26 @@ package org.centrale.projet.objet;
 
 import java.util.Random;
 
-/**
+/**Sous classe guerrier
  *
- * @author ADM
+ * @author hugorufato et luanlopesf
  */
 public class Guerrier extends Personnage {
     private int pageAt,degAt,distA;
     private Point2D position;
     
-    
+    /**Constructor dont les paramètres sont les caracteristiques
+     *
+     * @param n Nom 
+     * @param pV POints de vie
+     * @param dA Dégâts d'attaque
+     * @param pPar Points de parade
+     * @param paAtt Pourcentage d'attaque
+     * @param paPar Pourcentage de parade
+     * @param dMax Distance maximale d'attaque
+     * @param p Position
+     * @param nbF Nombre de fleches
+     */
     public Guerrier(String n,int pV,int dA, int pPar, int paAtt, int paPar, int dMax, Point2D p, int nbF){
         super(n,pV,dA,pPar,paAtt,paPar,dMax,p);
         position = this.getpos();
@@ -23,8 +34,11 @@ public class Guerrier extends Personnage {
         distA = this.getdistAttMax();
     }
     
-    
-   public Guerrier(Guerrier g){
+    /** Constructor que copie un objet guerrier
+     *
+     * @param g Objet type Guerrier
+     */
+    public Guerrier(Guerrier g){
    
         super((Personnage)g);
         position = this.getpos();
@@ -33,7 +47,11 @@ public class Guerrier extends Personnage {
         distA = this.getdistAttMax();        
        
    }
-   public Guerrier(){
+
+    /** Constructor sans paramètres
+     *
+     */
+    public Guerrier(){
      super();
      this.setNom("Guerrier");
         position = this.getpos();
@@ -43,6 +61,11 @@ public class Guerrier extends Personnage {
    }
   
      //COMBATTRE
+
+    /**Combat entre deux creatures
+     *
+     * @param c Objet type Creture
+     */
     public void combattre(Creature c){
         
     //type de combat

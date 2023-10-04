@@ -6,7 +6,7 @@ package org.centrale.projet.objet;
 
 /**
  *
- * @author ADM
+ * @author hugorufato et luanlopesf
  */
 public class ElemJeu {
     

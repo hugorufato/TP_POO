@@ -4,19 +4,33 @@
  */
 package org.centrale.projet.objet;
 
-/**
+/**Sous classe PotionSoin
  *
- * @author ADM
+ * @author hugorufato et luanlopes
  */
 public class PotionSoin extends Objet {
-    
-    public PotionSoin(int pt, Point2D pos){
-    super(pt,0,0,0,0,pos);
+
+    /**Constructor avec des paramètres comme caracteristiques
+     *
+     * @param pt Points de vie que ça soin
+     * @param pos Position de la potion
+     */
+    public PotionSoin(int pt, Point2D pos) {
+        super(pt, 0, 0, 0, 0, pos);
     }
-    public PotionSoin(PotionSoin p){
-     super((Objet) p);
+
+    /**Constructor recopie
+     *
+     * @param p Objet type PotionSoin
+     */
+    public PotionSoin(PotionSoin p) {
+        super((Objet) p);
     }
-    public PotionSoin(){
-    super(5,0,0,0,0,new Point2D());
+
+    /**Constructor sans paramètres
+     *
+     */
+    public PotionSoin() {
+        super(5, 0, 0, 0, 0, new Point2D());
     }
 }

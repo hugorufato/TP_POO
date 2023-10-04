@@ -5,26 +5,49 @@
 package org.centrale.projet.objet;
 
 /**
+ * Sous classe Monstre
  *
- * @author ADM
+ * @author hugorufato et luanlopesf
  */
 public class Monstre extends Creature {
-    
-   public Monstre(int pV,int dA, int pPar, int paAtt, int paPar,Point2D p){
-   super(pV,dA,pPar,paAtt,paPar,p);
-   }
-public Monstre(Monstre m){
 
-   super((Creature) m);
+    /**
+     * Constructor dont les paramètres sont les caracteristiques
+     *
+     * @param pV Points de vie
+     * @param dA Dégâts d'attaque
+     * @param pPar Points de parade
+     * @param paAtt Pourcentage d'attaque
+     * @param paPar Pourcentage de parade
+     * @param p Position
+     */
+    public Monstre(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p) {
+        super(pV, dA, pPar, paAtt, paPar, p);
+    }
+
+    /**
+     * Constructor que copie un objet monstre
+     *
+     * @param m Objet type Monstre
+     */
+    public Monstre(Monstre m) {
+
+        super((Creature) m);
+    }
+
+    /**
+     * Constructor sans paramètres
+     *
+     */
+    public Monstre() {
+        super();
+    }
+
+    /** Affiche les caracteristiques du monstre
+     *
+     */
+    public void affiche() {
+        afficheG();
+    }
+
 }
-public Monstre(){
-   super();
-}
-public void affiche(){
-afficheG();
-}
-
-
-}
-
-
