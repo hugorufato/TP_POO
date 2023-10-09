@@ -16,72 +16,72 @@ public class World {
     /**Déclaration des archers
      *
      */
-    public Archer robin,guillaumeT;
+    private Archer robin,guillaumeT;
 
     /**Déclaration du paysan
      *
      */
-    public Paysan peon;
+    private Paysan peon;
 
     /**Déclaration des lapins
      *
      */
-    public Lapin bugs1,bugs2;
+    private Lapin bugs1,bugs2;
 
     /**Déclaration du guerrier
      *
      */
-    public Guerrier grosBill;
+    private Guerrier grosBill;
 
     /**Déclaration du loup
      *
      */
-    public Loup wolfie;
+    private Loup wolfie;
 
     /**Déclaration des potions
      *
      */
-    public PotionSoin potion1,potion2,potion3,potion4;
+    private PotionSoin potion1,potion2,potion3,potion4;
 
     /**List avec des archers
      *
      */
-    public ArrayList<Archer> archers;
+    private ArrayList<Archer> archers;
 
     /**List avec des paysans
      *
      */
-    public ArrayList<Paysan> paysans;
+    private ArrayList<Paysan> paysans;
 
     /**List avec des lapins
      *
      */
-    public ArrayList<Lapin> lapins;
+    private ArrayList<Lapin> lapins;
 
     /**List avec des guerriers
      *
      */
-    public ArrayList<Guerrier> guerriers;
+    private ArrayList<Guerrier> guerriers;
 
     /**List avec des loups
      *
      */
-    public ArrayList<Loup> loups;
+    private ArrayList<Loup> loups;
 
     /**List avec des cretures
      *
      */
-    public ArrayList<Creature> creatures;
+    private ArrayList<Creature> creatures;
 
     /**List avec des personnages
      *
      */
-    public LinkedList<Personnage> personnages;
+    private LinkedList<Personnage> personnages;
 
     /**Variables de test
      *
      */
-    public int countvie,nombreProt;
+    private int countvie,nombreProt;
 
     /**Constructor pour atribuer des objets
      *

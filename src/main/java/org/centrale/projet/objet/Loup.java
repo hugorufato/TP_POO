@@ -11,9 +11,6 @@ import java.util.Random;
  * @author hugorufato et luanlopesf
  */
 public class Loup extends Monstre {
-    
-    private int pageAt, degAt;
-    private Point2D position;
 
     /**
      * Constructor dont les paramètres sont les caracteristiques
@@ -26,9 +23,6 @@ public class Loup extends Monstre {
      */
     public Loup(int pV, int dA, int pPar, int paAtt, int paPar, Point2D p) {
         super(pV, dA, pPar, paAtt, paPar, p);
-        position = this.getpos();
-        pageAt = this.getpageAtt();
-        degAt = this.getdegAtt();
     }
 
     /** Constructor que copie un objet loup
@@ -37,9 +31,6 @@ public class Loup extends Monstre {
      */
     public Loup(Loup l) {
         super((Monstre) l);
-        position = this.getpos();
-        pageAt = this.getpageAtt();
-        degAt = this.getdegAtt();
     }
 
     /**Constructor sans paramètres
@@ -47,9 +38,6 @@ public class Loup extends Monstre {
      */
     public Loup() {
         super();
-        position = this.getpos();
-        pageAt = this.getpageAtt();
-        degAt = this.getdegAtt();
     }
     //COMBATTRE
 
@@ -62,20 +50,20 @@ public class Loup extends Monstre {
         //type de combat
         //Contact
         System.out.println("ATAQUE CONTACT");
-        if (position.distance(c.getpos()) == 1) {
+        if (this.getpos().distance(c.getpos()) == 1) {
             Random naleat = new Random();
             int rand1 = naleat.nextInt(100);
             System.out.println("Jet de dés d'attaque:" + rand1);
-            if (rand1 <= pageAt) {
+            if (rand1 <= this.getpageAtt()) {
                 //Attaque réussie
                 System.out.println("ATAQUE RÉUSSIE");
                 int rand2 = naleat.nextInt(100);
                 System.out.println("Jet de dés de défence:" + rand2);
                 if (rand2 > c.getpagePar()) {
-                    c.setptVie(c.getptVie() - degAt);
+                    c.setptVie(c.getptVie() - this.getdegAtt());
                 } else {
                     System.out.println("DÉFENCE");
-                    c.setptVie(c.getptVie() - degAt + c.getptPar());
+                    c.setptVie(c.getptVie() - this.getdegAtt() + c.getptPar());
                 }
 
             } else {
