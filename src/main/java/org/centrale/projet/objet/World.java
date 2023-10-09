@@ -13,20 +13,20 @@ import java.util.LinkedList;
  */
 public class World {
     
-    public Archer robin,guillaumeT;
-    public Paysan peon;
-    public Lapin bugs1,bugs2;
-    public Guerrier grosBill;
-    public Loup wolfie;
-    public PotionSoin potion1,potion2,potion3,potion4;
-    public ArrayList<Archer> archers;
-    public ArrayList<Paysan> paysans;
-    public ArrayList<Lapin> lapins;
-    public ArrayList<Guerrier> guerriers;
-    public ArrayList<Loup> loups;
-    public ArrayList<Creature> creatures;
-    public LinkedList<Personnage> personnages;
-    public int countvie,nombreProt;
+    private Archer robin,guillaumeT;
+    private Paysan peon;
+    private Lapin bugs1,bugs2;
+    private Guerrier grosBill;
+    private Loup wolfie;
+    private PotionSoin potion1,potion2,potion3,potion4;
+    private ArrayList<Archer> archers;
+    private ArrayList<Paysan> paysans;
+    private ArrayList<Lapin> lapins;
+    private ArrayList<Guerrier> guerriers;
+    private ArrayList<Loup> loups;
+    private ArrayList<Creature> creatures;
+    private LinkedList<Personnage> personnages;
+    private int countvie,nombreProt;
     
   
     public World(){
