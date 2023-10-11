@@ -82,6 +82,11 @@ public class World {
      *
      */
     private int countvie,nombreProt;
+    
+    /**Grille du monde
+     * 
+     */
+    private ElemJeu[][] grille;
 
     /**Constructor pour atribuer des objets
      *
@@ -111,6 +116,7 @@ public class World {
         personnages = new LinkedList();
         countvie = 0;
         nombreProt = 100;
+        grille = new ElemJeu[50][50];
 
     }
 
@@ -180,11 +186,124 @@ public class World {
         System.out.println("temps boucle basée sur les itérateurs: " + (fin - debut) + "ns");
 
     }
+    ///////////////////////////////////////////////////////////////
+    
+    public void CreerMondeAlea(int taille){
+    
+    this.grille = new ElemJeu[taille][taille];
+    
+//Creation
+    Random aleat = new Random();
+        
+        int nA = aleat.nextInt(taille*taille);
+        int nP = aleat.nextInt(taille*taille);
+        int nL = aleat.nextInt(taille*taille);
+        int nG = aleat.nextInt(taille*taille);
+        int nLo = aleat.nextInt(taille*taille);
+        
+        while((nA+nP+nL+nG+nLo)>(taille*taille)){
+        nA = aleat.nextInt(taille*taille);
+        nP = aleat.nextInt(taille*taille);
+        nL = aleat.nextInt(taille*taille);
+        nG = aleat.nextInt(taille*taille);
+        nLo = aleat.nextInt(taille*taille);
+        }
+        
+        
+                
+        for (int i = 0; i < nA; i++) {
+            archers.add(new Archer());
+        }
+        
+        for (int i = 0; i < nP; i++) {
+            paysans.add(new Paysan());
+        }
+        
+        for (int i = 0; i < nL; i++) {
+            lapins.add(new Lapin());
+        }
+        
+        for (int i = 0; i < nG; i++) {
+            guerriers.add(new Guerrier());
+        }
+        
+        for (int i = 0; i < nLo; i++) {
+            loups.add(new Loup());
+        }
+    
+    //Placement
+        //Archers
+         int k=0;
+         while(k <nA){
+            int x = aleat.nextInt(taille);
+            int y = aleat.nextInt(taille);
+            if(grille[x][y]==null){
+            archers.get(k).getpos().setPosition(x,y);
+            grille[x][y]=archers.get(k);
+            k++;
+            }
+            
+        }
+         //Paysans
+         k=0;
+         while(k <nP){
+            int x = aleat.nextInt(taille);
+            int y = aleat.nextInt(taille);
+            if(grille[x][y]==null){
+            paysans.get(k).getpos().setPosition(x,y);
+            grille[x][y]=paysans.get(k);
+            k++;
+            }
+            
+        }
+         //Lapins
+         k=0;
+         while(k <nL){
+            int x = aleat.nextInt(taille);
+            int y = aleat.nextInt(taille);
+            if(grille[x][y]==null){
+            lapins.get(k).getpos().setPosition(x,y);
+            grille[x][y]=lapins.get(k);
+            k++;
+            }
+            
+        }
+         //Guerriers
+         k=0;
+         while(k <nG){
+            int x = aleat.nextInt(taille);
+            int y = aleat.nextInt(taille);
+            if(grille[x][y]==null){
+            guerriers.get(k).getpos().setPosition(x,y);
+            grille[x][y]=guerriers.get(k);
+            k++;
+            }
+            
+        }
+         //Loups
+         k=0;
+         while(k <nLo){
+            int x = aleat.nextInt(taille);
+            int y = aleat.nextInt(taille);
+            if(grille[x][y]==null){
+            loups.get(k).getpos().setPosition(x,y);
+            grille[x][y]=loups.get(k);
+            k++;
+            }
+            
+        }
+        System.out.println(nA+" "+nP+" "+nL+" "+nG+" "+nLo);
+        System.out.println(taille*taille);
+    
+    
+    }
 
     /**Tour de jeu
      *
      */
     public void TourDeJeu() {
+        
+     
 
     }
 
@@ -192,7 +311,21 @@ public class World {
      *
      */
     public void afficheWorld() {
-
+     for (int i = 0; i < this.grille.length; i++) {
+            for (int j = 0; j < this.grille[i].length; j++) {
+                if (this.grille[i][j] == null) {
+                    System.out.print(0+ " ");
+                } else {
+                    System.out.print(this.grille[i][j] + " ");
+                }
+            }
+            System.out.println(); 
+        }
+    }
+    
+        
+        
+        
     }
 
-}
+
