@@ -5,7 +5,9 @@ package org.centrale.projet.objet;
 
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**Classe pour créer le monde
  *
@@ -67,31 +69,48 @@ public class World {
      *
      */
     private ArrayList<Loup> loups;
+    
+    /**List avec des Nuages
+     *
+     */
+    private ArrayList<NuageToxique> Nuages;
 
     /**List avec des cretures
      *
      */
-    private ArrayList<Creature> creatures;
+    private ArrayList<ElemJeu> creatures;
+    
+    /**Déclaration des nourritures
+     *
+     */
+    private Nourriture miel1,biere1,miel2,miel3,biere2,biere3;
+    
+    /**List des nourritures
+     *
+     */
+    private ArrayList<Nourriture> nourritures;
+    
     
     /**List avec des objets
      *
      */
     private ArrayList<Objet> objets;
 
-    /**List avec des personnages
-     *
-     */
-    private LinkedList<Personnage> personnages;
-
-    /**Variables de test
-     *
-     */
-    private int countvie,nombreProt;
     
     /**Grille du monde
      * 
      */
     private ElemJeu[][] grille;
+    
+     /**Collection  des Objets utilisables
+     * 
+     */
+    private Collection<Utilisable> effets;
+    
+     /**Inventaire
+     * 
+     */
+    private ArrayList<Utilisable> inventaire;
 
     /**Constructor pour atribuer des objets
      *
@@ -111,6 +130,13 @@ public class World {
         potion2 = new PotionSoin();
         potion3 = new PotionSoin();
         potion4 = new PotionSoin();
+        nourritures = new ArrayList();
+        miel1 = new Nourriture("miel",3,0,0,0,new Point2D(),4,false);
+        biere1 = new Nourriture("biere",0,0,-24,0,new Point2D(),3,false);
+        miel2 = new Nourriture("miel",5,0,0,0,new Point2D(),4,false);
+        biere2 = new Nourriture("biere",0,0,-20,0,new Point2D(),3,false);
+        miel3 = new Nourriture("miel",4,0,0,0,new Point2D(),4,false);
+        biere3 = new Nourriture("biere",0,0,-18,0,new Point2D(),3,false);
 
         archers = new ArrayList();
         paysans = new ArrayList();
@@ -118,12 +144,11 @@ public class World {
         guerriers = new ArrayList();
         loups = new ArrayList();
         creatures = new ArrayList();
-        personnages = new LinkedList();
+        Nuages = new ArrayList();
         objets = new ArrayList();
-        countvie = 0;
-        nombreProt = 100;
         grille = new ElemJeu[50][50];
-        
+        inventaire = new ArrayList();
+        effets = new ArrayList<>();
 
     }
 
@@ -141,13 +166,15 @@ public class World {
 //Creation
     Random aleat = new Random();
         
-        int nA = aleat.nextInt(taille);
-        int nP = aleat.nextInt(taille);
-        int nL = aleat.nextInt(taille);
-        int nG = aleat.nextInt(taille);
-        int nLo = aleat.nextInt(taille);
-        int npotion = aleat.nextInt(2,taille);
-        int nepee = aleat.nextInt(2,taille);
+        int nA = 1;
+        int nP = 1;
+        int nL = 1;
+        int nG = 1;
+        int nLo = 1;
+        int npotion = 5;
+        int nepee = 5;
+        int nNuage = 3;
+        
         
         while((nA+nP+nL+nG+nLo)>(taille*taille-5)){
         nA = aleat.nextInt(taille*taille);
@@ -179,6 +206,10 @@ public class World {
             this.loups.add(new Loup());
         }
         
+        for (int i = 0; i < nNuage; i++) {
+            this.Nuages.add(new NuageToxique());
+        }
+        
         for (int i = 0; i < npotion; i++) {
             this.objets.add(new PotionSoin());
         }
@@ -186,6 +217,14 @@ public class World {
         for (int i = 0; i < nepee; i++) {
             this.objets.add(new Epee());
         }
+        
+        this.nourritures.add(this.miel1);
+        this.nourritures.add(this.biere1);
+        this.nourritures.add(this.miel2);
+        this.nourritures.add(this.biere2);
+        this.nourritures.add(this.miel3);
+        this.nourritures.add(this.biere3);
+        
         
         /////// Ajouter en creature
         for (int i = 0; i < this.archers.size(); i++) {
@@ -202,6 +241,9 @@ public class World {
         }
         for (int i = 0; i < this.loups.size(); i++) {
             this.creatures.add(this.loups.get(i));
+        }
+        for (int i = 0; i < this.Nuages.size(); i++) {
+            this.creatures.add(this.Nuages.get(i));
         }
         
     
@@ -266,6 +308,19 @@ public class World {
             }
             
         }
+        
+        //Nuage Toxique
+        k=0;
+        while(k <nNuage){
+           int x = aleat.nextInt(taille);
+           int y = aleat.nextInt(taille);
+           if(this.grille[x][y]==null){
+           this.Nuages.get(k).getpos().setPosition(x,y);
+           this.grille[x][y]=this.Nuages.get(k);
+           k++;
+           }
+
+        }
          
         // Objets
         k=0;
@@ -279,26 +334,24 @@ public class World {
             }
             
         }
+         
+         // Nourritures
+        k=0;
+         while(k <(this.nourritures.size())){
+            int x = aleat.nextInt(taille);
+            int y = aleat.nextInt(taille);
+            if(this.grille[x][y]==null){
+            this.nourritures.get(k).getpos().setPosition(x,y);
+            this.grille[x][y]=this.nourritures.get(k);
+            k++;
+            }
+            
+        }
         
-//        System.out.println(nA+" "+nP+" "+nL+" "+nG+" "+nLo);
-//        System.out.println(this.creatures.size());
     
     }
     }
 
-    public void modGrille(int x, int y, ElemJeu element){
-    this.grille[x][y] = element;
-    }
-    
-    public ElemJeu verifierGrille(int x,int y){
-    return this.grille[x][y];
-    }
-    
-    
-    
-    
-    
-    
     
     
     
@@ -307,60 +360,116 @@ public class World {
      */
  public void TourDeJeu() {
     
+     ///// Nourritures
+     for(int i =0; i < this.nourritures.size();i++ ){
+         if(this.nourritures.get(i)!=null){
+         if(this.nourritures.get(i).getconsomee()){
+             this.nourritures.get(i).setduree(this.nourritures.get(i).getduree()-1);
+           if(this.nourritures.get(i).getduree()==0){
+               this.nourritures.get(i).enleve(this.nourritures.get(i).getCreature());
+               System.out.println(this.nourritures.get(i).getCreature()+": Fin d'effet de "+this.nourritures.get(i).getNom());
+               this.nourritures.set(i,null);
+           }
+         }
+         
+        }
+         
+     }
      
-     
-     
-     
-     
-    // Deplacement
+    // Deplacement et combattre des creatures
     for (int i = 0; i < this.creatures.size(); i++) {
+        if(this.creatures.get(i)!=null){
+        if(this.creatures.get(i) instanceof Creature && this.creatures.get(i).getptVie()<=0){
+        this.grille[this.creatures.get(i).getpos().getX()][this.creatures.get(i).getpos().getY()] = null;
+        this.creatures.set(i,null);
+        }
+        else{
+        //////////////// COMBATTRE /////////////////////////////////////////////////////////////////////////////////////////////
+//        if(attaquer==true && this.creatures.get(i) instanceof Combattant){
+//        ((Combattant) this.creatures.get(i)).combattre();
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//                
+//        }
+//        else{
+//        
+        //////////////// DEPLACEMENT ///////////////////////////////////////////////////////////////////////////////////////////
         int k = 0;
         Point2D p = new Point2D();
         p.setPosition(this.creatures.get(i).getpos().getX(), this.creatures.get(i).getpos().getY());
-        this.creatures.get(i).deplace();
 
         while (k < 8) {
-            // Verifica se a criatura está fora dos limites da grade.
-                this.creatures.get(i).deplace();
+            // Verifier si est dans la grille
+                ((Deplacable) this.creatures.get(i)).deplace();
                 while (this.creatures.get(i).getpos().getX() < 0 || this.creatures.get(i).getpos().getX() > this.grille.length-1  ||
                         this.creatures.get(i).getpos().getY() < 0 || this.creatures.get(i).getpos().getY() > this.grille.length-1 ) {
 
                     this.creatures.get(i).getpos().setPosition(p.getX(), p.getY());
-                    this.creatures.get(i).deplace();
+                    ((Deplacable) this.creatures.get(i)).deplace();
                 }     
 
                         
-                        
                 if (this.grille[this.creatures.get(i).getpos().getX()][this.creatures.get(i).getpos().getY()] != null) {
-                    if(this.grille[this.creatures.get(i).getpos().getX()][this.creatures.get(i).getpos().getY()] instanceof Objet o
-                            && this.creatures.get(i) instanceof Personnage f) {
-                            f.useitem(o);
-                            this.grille[p.getX()][p.getY()] = null;
-                            this.grille[this.creatures.get(i).getpos().getX()][this.creatures.get(i).getpos().getY()] = this.creatures.get(i);
-                            k=8;
-                    }
-                    else{
-                    this.creatures.get(i).getpos().setPosition(p.getX(), p.getY());}
                     
-                } else {
+                        if(this.grille[this.creatures.get(i).getpos().getX()][this.creatures.get(i).getpos().getY()] instanceof Objet o
+                                && this.creatures.get(i) instanceof Personnage f) {
+                                if(!(o instanceof NuageToxique)){
+                                ((Utilisable) o).useitem(f);
+                                this.grille[p.getX()][p.getY()] = null;
+                                this.grille[o.getpos().getX()][o.getpos().getY()] = this.creatures.get(i);
+                                }
+                                else{
+                                      int pt = f.getptVie(); 
+                                     ((NuageToxique) o).combattre(f);
+                                     this.grille[p.getX()][p.getY()] = null;
+                                     this.grille[o.getpos().getX()][o.getpos().getY()] = this.creatures.get(i);
+                                     this.creatures.set(this.creatures.indexOf(o),null);
+                                     System.out.println("Nuage: "+f+" -"+(pt-f.getptVie())+" ptVie");
+                                     
+                                }
+                                k=8;
+                        }
+                        else if(this.grille[this.creatures.get(i).getpos().getX()][this.creatures.get(i).getpos().getY()] instanceof Creature f
+                                && this.creatures.get(i) instanceof NuageToxique nuage){
+                               int pt = f.getptVie();
+                               nuage.combattre(f);
+                               this.grille[p.getX()][p.getY()] = null;
+                               this.creatures.set(this.creatures.indexOf(nuage),null);
+                               System.out.println("Nuage: "+f+" -"+(pt-f.getptVie())+" ptVie");
+                                k=8;
+                        }
+                        else{
+                            this.creatures.get(i).getpos().setPosition(p.getX(), p.getY());
+                        }
+                    
+                }
+                else {
                     this.grille[p.getX()][p.getY()] = null;
                     this.grille[this.creatures.get(i).getpos().getX()][this.creatures.get(i).getpos().getY()] = this.creatures.get(i);
-//                    System.out.println("coloquei o: ["+p.getX()+";"+p.getY()+"] no: ["+this.creatures.get(i).getpos().getX()+";"+this.creatures.get(i).getpos().getY()+"] na iteração "+i);
                     k=8;
-                    }
+                }
 
             k++;
         }
-    }  
     
-    //COMBATTRE
-    
-    
-    
+    }
+          
+        }
+        }
 }
         
-    /**Placer un personnage dans le monde
+    /**Placer un protagoniste dans le monde
      *
+     * @param p personnage à placer
      */
  
     public void Placer(Personnage p){
@@ -419,6 +528,228 @@ public class World {
     }
     
 }
+    
+    public void partie(int taille){
+    
+             // Scan
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Commencer le jeu? [y/n]: ");
+            String commencer = scanner.nextLine();
+            if (commencer.equals("y")) {
+                // Creer monde
+                this.CreerMondeAlea(taille);
+                //Creer Joueur
+                Joueur joueur = new Joueur();
+                System.out.print("Choisissez une classe jouable: Guerrier, Archer : ");
+                String classe = scanner.nextLine();
+                System.out.print("Entrez le nom de votre Personnage : ");
+                String nomPerso = scanner.nextLine();
+                Personnage personnage = joueur.choisirPersonnage(classe, nomPerso);
+                this.Placer(personnage);
+                if (personnage != null) {
+                    System.out.println("Personnage créé : ");
+                    System.out.println("Classe : " + personnage.getClass().getSimpleName());
+                    personnage.affiche();
+                }
+                String option = null;
+                
+ ///////////////////////////////////////// TOURS DE JEU ////////////////////////////////////////////////////
+ 
+                while(!"5".equals(option) && personnage.getptVie()>0 ){
+                    this.afficheWorld();
+                    System.out.println(" ");
+                    int ret = 0;
+                    
+                    while(ret==0){
+////////////////////////////////////////////EFFETS//////////////////////////////////////////////////////////////
+                        
+                        
+                        if (!this.effets.isEmpty()) {
+                            Iterator<Utilisable> iterator = effets.iterator();
+                            while (iterator.hasNext()) {
+                                Utilisable effet = iterator.next();
+                                if (effet.getduree() == 0) {
+                                    iterator.remove();
+                                } else if (effet instanceof Nourriture) {
+                                    ((Objet) effet).affiche();
+                                }
+                            }
+                        }
+                        if (this.effets.isEmpty()){
+                              System.out.println("Aucune effet appliqué");
+                            }
+                        
+                        
+///////////////////////////////////////// DEPLACER ////////////////////////////////////////////////////
+
+                        System.out.println("(1 Déplacer)  (2 Attaquer)  (3 Afficher Personnage) (4 Inventaire) (5 Fermer le jeu)");
+                        option = scanner.nextLine();
+            switch (option) {
+                case "1" -> {
+                    int dep2=0;
+                    while(dep2==0){
+                        System.out.print("Entrez le deplacement [x,y]  (x,y e [-1,1]) ('R' pour retourner) ");
+                        String input = scanner.nextLine();
+                        if("R".equals(input)){
+                            dep2=1;
+                        }
+                        else{
+                                input = input.replace("[", "").replace("]", "").replaceAll("\\s", "");
+                                String[] parts = input.split(",");
+
+                                if (parts.length == 2) {
+                                    try {
+                                        int y = Integer.parseInt(parts[0]);
+                                        int x = Integer.parseInt(parts[1]);
+                                        if(x>1 || x<-1 || y>1 || y<-1){
+                                            System.out.print("deplacement impossible \n");
+                                        }
+                                        else{
+                                        //verifier si c'est possible
+                                        if((personnage.getpos().getX() + x)<=(taille-1) && (personnage.getpos().getX() + x)>=0
+                                                && (personnage.getpos().getY() + y)<=(taille-1) && (personnage.getpos().getY() + y)>=0){
+                                            if(this.grille[personnage.getpos().getX() + x ][personnage.getpos().getY() + y]==null){
+                                                this.grille[personnage.getpos().getX()][personnage.getpos().getY()]=null;
+                                                personnage.getpos().setPosition(personnage.getpos().getX() + x,personnage.getpos().getY() + y);
+                                                this.grille[personnage.getpos().getX()][personnage.getpos().getY()] = personnage;
+                                            }
+                                            else if(this.grille[personnage.getpos().getX() + x ][personnage.getpos().getY() + y] instanceof Objet objet){
+                                                if(!(objet instanceof NuageToxique)){
+                                                this.inventaire.add(((Utilisable) objet));
+                                                this.grille[personnage.getpos().getX()][personnage.getpos().getY()]=null;
+                                                personnage.getpos().setPosition(personnage.getpos().getX() + x,personnage.getpos().getY() + y);
+                                                this.grille[personnage.getpos().getX()][personnage.getpos().getY()]=personnage;
+                                                System.out.println("Objet ajouté dans l'inventaire: "+ objet.getClass().getSimpleName());
+                                                }
+                                                else{
+                                                int pt=personnage.getptVie();
+                                                ((NuageToxique) objet).combattre(personnage);
+                                                this.grille[personnage.getpos().getX()][personnage.getpos().getY()]=null;
+                                                personnage.getpos().setPosition(personnage.getpos().getX() + x,personnage.getpos().getY() + y);
+                                                this.grille[personnage.getpos().getX()][personnage.getpos().getY()]=personnage;
+                                                System.out.println("Nuage: "+personnage+" -"+(pt-personnage.getptVie())+" ptVie");
+                                                this.creatures.set(this.creatures.indexOf(objet),null);
+                                                }
+                                                
+                                            }
+                                            else {
+                                                System.out.print("deplacement impossible \n");
+                                            }
+                                        }
+                                        else{
+                                            System.out.print("deplacement impossible \n");
+                                        }
+                                        dep2 =1;
+                                        ret=1;
+                                        }
+                                    } catch (NumberFormatException e) {
+                                        System.out.println("ERROR - x et y sont -int-");
+                                    }
+                                } else {
+                                    System.out.println("format invalide, utilisez: [x,y].");
+                                }
+                        }
+                    }
+
+                }           
+                            
+////////////////////////////////////////////     ATTAQUER   //////////////////////////////////////////////////////////
+                            
+                            
+                            case "2" -> {
+                                int dep2=0;
+                                while(dep2==0){
+                                System.out.print(" Entrez la position du personnage [x,y] ('R' pour retourner) ");
+                                String input = scanner.nextLine();
+                                if("R".equals(input)){
+                                        dep2=1;
+                                    }
+                                    else{
+                                           input = input.replace("[", "").replace("]", "").replaceAll("\\s", "");
+                                            String[] parts = input.split(",");
+                                            
+                                            if (parts.length == 2) {
+                                                try {
+                                                    int y = Integer.parseInt(parts[0]);
+                                                    int x = Integer.parseInt(parts[1]);
+                                                    Point2D xy = new Point2D(x,y);
+                                                    if(this.grille[x][y] instanceof Objet || this.grille[x][y] == null 
+                                                            || personnage.getpos().distance(xy)>personnage.getdistAttMax()){
+                                                        System.out.print("impossible d'attaquer \n");
+                                                        dep2 = 1;
+                                                        ret =1;
+                                                    }
+                                                    else{
+                                                        ((Combattant) personnage).combattre((Creature) this.grille[x][y]);
+                                                        dep2 = 1;
+                                                        ret =1;
+                                                    }
+                                                    }
+                                                catch (NumberFormatException e) {
+                                                    System.out.println("ERROR - x et y sont -int-");
+                                                }
+                                            } else {
+                                                System.out.println("format invalide, utilisez: [x,y].");
+                                            }
+                                }
+                                }   
+                            }
+/////////////////////////////////////////////////////// AFFICHER /////////////////////////////////////////////////////////////           
+                            case "3" -> {personnage.affiche();}
+                            
+                            
+                            
+///////////////////////////////////////////////////////// INVENTAIRE ///////////////////////////////////////////////////////////
+                            
+                            case "4" -> {
+                                System.out.println("-- INVENTAIRE --");
+
+                                if (this.inventaire.isEmpty()) {
+                                    System.out.println("Inventaire Vide.");
+                                } else {
+                                    System.out.println("N°\tNom\t\tDuree");
+                                    for (int i = 0; i < this.inventaire.size(); i++) {
+                                        Utilisable item = this.inventaire.get(i);
+                                        System.out.println(i + "\t" + item.getNom() + "\t\t" + item.getduree());
+                                    }
+
+                                    System.out.print("N°: ");
+                                    Scanner scanner2 = new Scanner(System.in);
+                                    int nItem = scanner2.nextInt();
+
+                                    if (nItem >= 0 && nItem < this.inventaire.size()) {
+                                        Utilisable item = this.inventaire.get(nItem);
+                                            item.useitem(personnage);
+                                            this.effets.add(item);
+                                            System.out.println("item utilisé: " + item.getNom() );
+                                            this.inventaire.remove(nItem); 
+                                            ret=1;
+                                    } else {
+                                        System.out.println("Item non trouvé");
+                                    }
+                                }
+                            }
+
+/////////////////////////////////////////////////////// FERMER LE JEU  /////////////////////////////////////////////////////////////   
+       
+                            case "5" -> {System.out.print("--JEU FERMÉ--");
+                            ret =   1;}
+                            
+                            default -> {
+                            }
+                        }
+                    }
+                    this.TourDeJeu();
+                }   
+            }
+                System.out.print("--  FIN DE JEU  --");
+        }
+    
+    
+    
+    
+    
+    }
 
 
 
@@ -427,7 +758,7 @@ public class World {
 
 
 
-}
+
     
         
     
