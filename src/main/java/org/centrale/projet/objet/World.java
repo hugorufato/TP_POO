@@ -3,11 +3,10 @@
  */
 package org.centrale.projet.objet;
 
-import java.util.Random;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Collection;
-import java.util.Iterator;
+
+import java.io.*;
+import java.util.*;
+import java.text.SimpleDateFormat;
 
 /**Classe pour créer le monde
  *
@@ -111,32 +110,39 @@ public class World {
      * 
      */
     private ArrayList<Utilisable> inventaire;
-
-    /**Constructor pour atribuer des objets
+    
+    /**Personnage principal pour sauvegarder
+     * 
+     */
+    private Personnage joueur;
+    
+    /**Constructeur sans paramètres d'un monde pour incializer les variables
      *
      */
     public World() {
-        robin = new Archer();
-        robin.setNom("Robin");
-        guillaumeT = new Archer(robin);
-        guillaumeT.setNom("GuillaumeT");
-        peon = new Paysan();
-        peon.setNom("Peon");
-        bugs1 = new Lapin();
-        bugs2 = new Lapin();
-        grosBill = new Guerrier();
-        wolfie = new Loup();
-        potion1 = new PotionSoin();
-        potion2 = new PotionSoin();
-        potion3 = new PotionSoin();
-        potion4 = new PotionSoin();
+        
+//        robin = new Archer();
+//        robin.setNom("Robin");
+//        guillaumeT = new Archer(robin);
+//        guillaumeT.setNom("GuillaumeT");
+//        peon = new Paysan();
+//        peon.setNom("Peon");
+//        bugs1 = new Lapin();
+//        bugs2 = new Lapin();
+//        grosBill = new Guerrier();
+//        wolfie = new Loup();
+//        potion1 = new PotionSoin();
+//        potion2 = new PotionSoin();
+//        potion3 = new PotionSoin();
+//        potion4 = new PotionSoin();
+
         nourritures = new ArrayList();
-        miel1 = new Nourriture("miel",3,0,0,0,new Point2D(),4,false);
-        biere1 = new Nourriture("biere",0,0,-24,0,new Point2D(),3,false);
-        miel2 = new Nourriture("miel",5,0,0,0,new Point2D(),4,false);
-        biere2 = new Nourriture("biere",0,0,-20,0,new Point2D(),3,false);
-        miel3 = new Nourriture("miel",4,0,0,0,new Point2D(),4,false);
-        biere3 = new Nourriture("biere",0,0,-18,0,new Point2D(),3,false);
+        miel1 = new Nourriture("miel",3,0,0,0,4,new Point2D(),false);
+        biere1 = new Nourriture("biere",0,0,-24,0,3,new Point2D(),false);
+        miel2 = new Nourriture("miel",5,0,0,0,4,new Point2D(),false);
+        biere2 = new Nourriture("biere",0,0,-20,0,3,new Point2D(),false);
+        miel3 = new Nourriture("miel",4,0,0,0,4,new Point2D(),false);
+        biere3 = new Nourriture("biere",0,0,-18,0,3,new Point2D(),false);
 
         archers = new ArrayList();
         paysans = new ArrayList();
@@ -152,31 +158,26 @@ public class World {
 
     }
 
-
-    
+    /**Méthode pour creer un monde aléatoire avec une taille donée et placer les elements de jeu dans la grille du monde
+     *
+     * @param taille La taille du monde choisi
+     */
     public void CreerMondeAlea(int taille){
-
-    if(taille<=2){
-    System.out.println("ERROR - TAILLE DU MONDE DOIT ETRE >= 2");
-    }
-    else{
-            
-    this.grille = new ElemJeu[taille][taille];
     
 //Creation
     Random aleat = new Random();
+        this.grille = new ElemJeu[taille][taille];
+        int nA = aleat.nextInt(taille);
+        int nP = aleat.nextInt(taille);
+        int nL = aleat.nextInt(taille);
+        int nG = aleat.nextInt(taille);
+        int nLo = aleat.nextInt(taille);
+        int npotion = aleat.nextInt(taille);
+        int nepee = aleat.nextInt(taille);
+        int nNuage = aleat.nextInt(taille);
         
-        int nA = 1;
-        int nP = 1;
-        int nL = 1;
-        int nG = 1;
-        int nLo = 1;
-        int npotion = 5;
-        int nepee = 5;
-        int nNuage = 3;
         
-        
-        while((nA+nP+nL+nG+nLo)>(taille*taille-5)){
+        while((nA+nP+nL+nG+nLo+npotion+nepee+nNuage)>(taille*taille-5)){
         nA = aleat.nextInt(taille*taille);
         nP = aleat.nextInt(taille*taille);
         nL = aleat.nextInt(taille*taille);
@@ -246,11 +247,10 @@ public class World {
             this.creatures.add(this.Nuages.get(i));
         }
         
-    
-    //Placement
+        //Placement
         //Archers
          int k=0;
-         while(k <nA){
+         while(k <this.archers.size()){
             int x = aleat.nextInt(taille);
             int y = aleat.nextInt(taille);
             if(this.grille[x][y]==null){
@@ -262,7 +262,7 @@ public class World {
         }
          //Paysans
          k=0;
-         while(k <nP){
+         while(k <this.paysans.size()){
             int x = aleat.nextInt(taille);
             int y = aleat.nextInt(taille);
             if(this.grille[x][y]==null){
@@ -274,7 +274,7 @@ public class World {
         }
          //Lapins
          k=0;
-         while(k <nL){
+         while(k <this.lapins.size()){
             int x = aleat.nextInt(taille);
             int y = aleat.nextInt(taille);
             if(this.grille[x][y]==null){
@@ -286,7 +286,7 @@ public class World {
         }
          //Guerriers
          k=0;
-         while(k <nG){
+         while(k <this.guerriers.size()){
             int x = aleat.nextInt(taille);
             int y = aleat.nextInt(taille);
             if(this.grille[x][y]==null){
@@ -298,7 +298,7 @@ public class World {
         }
          //Loups
          k=0;
-         while(k <nLo){
+         while(k <this.loups.size()){
             int x = aleat.nextInt(taille);
             int y = aleat.nextInt(taille);
             if(this.grille[x][y]==null){
@@ -311,7 +311,7 @@ public class World {
         
         //Nuage Toxique
         k=0;
-        while(k <nNuage){
+        while(k <this.Nuages.size()){
            int x = aleat.nextInt(taille);
            int y = aleat.nextInt(taille);
            if(this.grille[x][y]==null){
@@ -324,7 +324,7 @@ public class World {
          
         // Objets
         k=0;
-         while(k <(npotion+nepee)){
+         while(k <(this.objets.size())){
             int x = aleat.nextInt(taille);
             int y = aleat.nextInt(taille);
             if(this.grille[x][y]==null){
@@ -348,15 +348,15 @@ public class World {
             
         }
         
-    
     }
-    }
-
     
     
     
-    /**Tour de jeu
-     *
+    /**Méthode pour realiser un tour de jeu
+     * Il commence par enlever  1 de la durée des effets des nourritures qui étaient utilisées
+     * Aprés, les creatures sont deplacer aléatoirement dans le monde, en respectant les bords du monde et les places dejà occupés
+     * Les nuages se déplacent également et peuvent attaquer dans le cas oú elles touchent les creatures
+     * Si une creature arrive dans un objet ou une nuage, elle le utilise intantanément. 
      */
  public void TourDeJeu() {
     
@@ -376,32 +376,15 @@ public class World {
          
      }
      
-    // Deplacement et combattre des creatures
+    // Deplacement des creatures
     for (int i = 0; i < this.creatures.size(); i++) {
         if(this.creatures.get(i)!=null){
         if(this.creatures.get(i) instanceof Creature && this.creatures.get(i).getptVie()<=0){
+        System.out.println(this.creatures.get(i).getClass().getSimpleName()+" is dead");
         this.grille[this.creatures.get(i).getpos().getX()][this.creatures.get(i).getpos().getY()] = null;
         this.creatures.set(i,null);
         }
         else{
-        //////////////// COMBATTRE /////////////////////////////////////////////////////////////////////////////////////////////
-//        if(attaquer==true && this.creatures.get(i) instanceof Combattant){
-//        ((Combattant) this.creatures.get(i)).combattre();
-//                
-//                
-//                
-//                
-//                
-//                
-//                
-//                
-//                
-//                
-//                
-//                
-//        }
-//        else{
-//        
         //////////////// DEPLACEMENT ///////////////////////////////////////////////////////////////////////////////////////////
         int k = 0;
         Point2D p = new Point2D();
@@ -487,8 +470,8 @@ public class World {
     }
         
 
-    /**Afficher le monde
-     *
+    /**Méthode pour afficher le monde dans uns format visible.
+     * 
      */
     public void afficheWorld() {
     int numRows = this.grille[0].length;
@@ -529,13 +512,21 @@ public class World {
     
 }
     
-    public void partie(int taille){
+    /**Méthode pour faire tourner une partie
+     * Le personnage principal peut choisir entre commencer a partir d'un jeu dejà sauvegardé ou non
+     * Aprés, il a 6 choix: déplacer, attaquer, afficher le personnage, regarder le inventaire, sauvegarder et fermer le jeu
+     *
+     * @param taille taille du monde a être crée
+     */
+    public void partie (int taille) {
     
              // Scan
             Scanner scanner = new Scanner(System.in);
             System.out.print("Commencer le jeu? [y/n]: ");
             String commencer = scanner.nextLine();
+            Personnage personnage = null;
             if (commencer.equals("y")) {
+                if(!chargerSauvegardeAuLancement()){
                 // Creer monde
                 this.CreerMondeAlea(taille);
                 //Creer Joueur
@@ -544,18 +535,32 @@ public class World {
                 String classe = scanner.nextLine();
                 System.out.print("Entrez le nom de votre Personnage : ");
                 String nomPerso = scanner.nextLine();
-                Personnage personnage = joueur.choisirPersonnage(classe, nomPerso);
+                try{
+                personnage = joueur.choisirPersonnage(classe, nomPerso);
                 this.Placer(personnage);
+                }
+                catch(NullPointerException e){
+                System.out.println("Archer crée");
+                classe = "Archer";
+                personnage = joueur.choisirPersonnage(classe, nomPerso);
+                this.Placer(personnage);
+                }
+                
                 if (personnage != null) {
                     System.out.println("Personnage créé : ");
                     System.out.println("Classe : " + personnage.getClass().getSimpleName());
                     personnage.affiche();
                 }
+                }
+                else{
+                personnage=this.joueur;
+                }
+                
+                
                 String option = null;
                 
  ///////////////////////////////////////// TOURS DE JEU ////////////////////////////////////////////////////
- 
-                while(!"5".equals(option) && personnage.getptVie()>0 ){
+                while(!"6".equals(option) && personnage.getptVie()>0 ){
                     this.afficheWorld();
                     System.out.println(" ");
                     int ret = 0;
@@ -568,7 +573,7 @@ public class World {
                             Iterator<Utilisable> iterator = effets.iterator();
                             while (iterator.hasNext()) {
                                 Utilisable effet = iterator.next();
-                                if (effet.getduree() == 0) {
+                                if (((Objet) effet).getduree() == 0) {
                                     iterator.remove();
                                 } else if (effet instanceof Nourriture) {
                                     ((Objet) effet).affiche();
@@ -582,7 +587,7 @@ public class World {
                         
 ///////////////////////////////////////// DEPLACER ////////////////////////////////////////////////////
 
-                        System.out.println("(1 Déplacer)  (2 Attaquer)  (3 Afficher Personnage) (4 Inventaire) (5 Fermer le jeu)");
+                        System.out.println("(1 Déplacer)  (2 Attaquer)  (3 Afficher Personnage)\n(4 Inventaire) (5 sauvegarder) (6 Fermer le jeu)");
                         option = scanner.nextLine();
             switch (option) {
                 case "1" -> {
@@ -680,7 +685,14 @@ public class World {
                                                         ret =1;
                                                     }
                                                     else{
+                                                        int vie = personnage.getptVie();
+                                                        int vieM = ((Creature) this.grille[x][y]).getptVie();
                                                         ((Combattant) personnage).combattre((Creature) this.grille[x][y]);
+                                                        System.out.println(((Creature) this.grille[x][y]).getClass().getSimpleName()+" "+(((Creature) this.grille[x][y]).getptVie()-vieM)+" ptVie");
+                                                         if(this.grille[x][y] instanceof Combattant && (this.grille[x][y]).getptVie()>0){
+                                                        ((Combattant) this.grille[x][y]).combattre(personnage);
+                                                        System.out.println(personnage.getNom()+" "+(personnage.getptVie()-vie)+" ptVie");
+                                                        }
                                                         dep2 = 1;
                                                         ret =1;
                                                     }
@@ -710,13 +722,14 @@ public class World {
                                     System.out.println("N°\tNom\t\tDuree");
                                     for (int i = 0; i < this.inventaire.size(); i++) {
                                         Utilisable item = this.inventaire.get(i);
-                                        System.out.println(i + "\t" + item.getNom() + "\t\t" + item.getduree());
+                                        System.out.println(i + "\t" + item.getNom() + "\t\t" + ((Objet) item).getduree());
                                     }
 
                                     System.out.print("N°: ");
                                     Scanner scanner2 = new Scanner(System.in);
+                                    try{
                                     int nItem = scanner2.nextInt();
-
+                                    
                                     if (nItem >= 0 && nItem < this.inventaire.size()) {
                                         Utilisable item = this.inventaire.get(nItem);
                                             item.useitem(personnage);
@@ -727,12 +740,41 @@ public class World {
                                     } else {
                                         System.out.println("Item non trouvé");
                                     }
+                                    }
+                                    catch(InputMismatchException e){
+                                    System.out.println("Item non trouvé");
+                                    }
+                                }
+                                
+                            }
+/////////////////////////////////////////////////////// SAUVEGARDER ////////////////////////////////////////////////////////////////
+                            
+                            case "5" -> {
+                            this.joueur=personnage;
+                            Scanner scanner3 = new Scanner(System.in);
+                            System.out.print("Voulez-vous choisir un nom de sauvegarde(Oui/Non) ? ");
+                            String reponse1 = scanner3.nextLine().toLowerCase();
+
+                            switch (reponse1) {
+                                case "oui" -> {
+                                    System.out.print("Nom: ");
+                                    String reponse2 = scanner3.nextLine().toLowerCase();
+                                    this.sauvegardePartie(reponse2);
+                                }
+                                case "non" -> {
+                                    String nomFichier = obtenirNomFichierSauvegarde();
+                                    if (nomFichier != null) {
+                                        sauvegardePartie(nomFichier);
+                                    }
+                                }
+                                default -> {
                                 }
                             }
-
+                            
+                            }
 /////////////////////////////////////////////////////// FERMER LE JEU  /////////////////////////////////////////////////////////////   
        
-                            case "5" -> {System.out.print("--JEU FERMÉ--");
+                            case "6" -> {System.out.print("--JEU FERMÉ--");
                             ret =   1;}
                             
                             default -> {
@@ -745,11 +787,315 @@ public class World {
                 System.out.print("--  FIN DE JEU  --");
         }
     
-    
-    
-    
-    
+
+
+    /**
+     * Sauvegarde l'état courant de la partie de WoE.
+     *
+     * @param nomFichier Le nom du fichier de sauvegarde.
+     */
+    public void sauvegardePartie(String nomFichier) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier))) {
+        // Salve o tamanho da matriz na primeira linha
+        int tamanhoMatriz = this.grille.length;
+        writer.write(Integer.toString(tamanhoMatriz));
+        writer.newLine();  // Adicione uma quebra de linha
+
+        // Iterar sobre a matriz this.grille[][] e salvar o conteúdo de cada elemento
+        for (int i = 0; i < tamanhoMatriz; i++) {
+            for (int j = 0; j < tamanhoMatriz; j++) {
+                if (this.grille[i][j] != null) {
+                    if (i == this.joueur.getpos().getX() && j == this.joueur.getpos().getY()) {
+                        String texteSauvegarde = this.grille[i][j].getTexteSauvegarde();
+                        writer.write("Joueur " + texteSauvegarde);
+                    } else {
+                        String texteSauvegarde = this.grille[i][j].getTexteSauvegarde();
+                        writer.write(texteSauvegarde);
+                    }
+                    writer.newLine();  // Adicione uma quebra de linha após cada elemento
+                }
+            }
+        }
+
+        // Adicionar os itens do inventário com a menção "inventaire" antes de cada item
+        for (Utilisable item : this.inventaire) {
+            writer.write("inventaire " + item.getTexteSauvegarde());
+            writer.newLine();
+        }
+        for (Utilisable item: this.effets){
+            writer.write("effets " + item.getTexteSauvegarde());
+            writer.newLine();
+        }
+
+        System.out.println("Partie sauvegardée avec succès dans le fichier : " + nomFichier);
+    } catch (IOException e) {
+        System.err.println("Erreur lors de la sauvegarde de la partie.");
+        e.printStackTrace();
     }
+}
+
+    /**
+     * Obtient le nom du fichier de sauvegarde, en proposant un nom automatique unique.
+     *
+     * @return Le nom du fichier de sauvegarde.
+     */
+    private String obtenirNomFichierSauvegarde() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String dateHeure = dateFormat.format(new Date());
+        return "sauvegarde_" + dateHeure + ".txt";
+    }
+    
+    /**
+     * Charge une partie à partir d'un fichier de sauvegarde.
+     *
+     * @param nomFichier Le nom du fichier de sauvegarde à charger.
+     * @return 
+     */
+    public boolean chargementPartie(String nomFichier) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(nomFichier))) {
+            String taille;
+            taille = reader.readLine();
+            int dim = Integer.parseInt(taille);
+            String ligne;
+            while ((ligne = reader.readLine()) != null) {
+                String[] dados = ligne.split(" ");
+                String tipo = dados[0];
+                
+                
+                switch (tipo) {
+                    case "Archer" -> {
+                        String nome = dados[1];
+                        int ptVie = Integer.parseInt(dados[2]);
+                        int degAtt = Integer.parseInt(dados[3]);
+                        int ptPar = Integer.parseInt(dados[4]);
+                        int pageAtt = Integer.parseInt(dados[5]);
+                        int pagePar = Integer.parseInt(dados[6]);
+                        int distAttMax = Integer.parseInt(dados[7]);
+                        int posX = Integer.parseInt(dados[8]);
+                        int posY = Integer.parseInt(dados[9]);
+                        int nbFleches = Integer.parseInt(dados[10]);
+                        this.creatures.add(new Archer(nome,ptVie,degAtt,ptPar,pageAtt,pagePar,distAttMax,nbFleches,new Point2D(posX,posY)));}
+                    
+                    
+                    case "Guerrier" ->{
+                        String nome = dados[1];
+                        int ptVie = Integer.parseInt(dados[2]);
+                        int degAtt = Integer.parseInt(dados[3]);
+                        int ptPar = Integer.parseInt(dados[4]);
+                        int pageAtt = Integer.parseInt(dados[5]);
+                        int pagePar = Integer.parseInt(dados[6]);
+                        int distAttMax = Integer.parseInt(dados[7]);
+                        int posX = Integer.parseInt(dados[8]);
+                        int posY = Integer.parseInt(dados[9]);
+                        this.creatures.add(new Guerrier(nome,ptVie,degAtt,ptPar,pageAtt,pagePar,distAttMax,new Point2D(posX,posY)));
+                    }
+
+                    case "Paysan" -> {
+                        String nome = dados[1];
+                        int ptVie = Integer.parseInt(dados[2]);
+                        int degAtt = Integer.parseInt(dados[3]);
+                        int ptPar = Integer.parseInt(dados[4]);
+                        int pageAtt = Integer.parseInt(dados[5]);
+                        int pagePar = Integer.parseInt(dados[6]);
+                        int distAttMax = Integer.parseInt(dados[7]);
+                        int posX = Integer.parseInt(dados[8]);
+                        int posY = Integer.parseInt(dados[9]);
+                        this.creatures.add(new Paysan(nome,ptVie,degAtt,ptPar,pageAtt,pagePar,distAttMax,new Point2D(posX,posY)));
+                    }
+                    
+                    case "Nourriture" ->{
+                        String nome = dados[1];
+                        int degAtt = Integer.parseInt(dados[2]);
+                        int ptPar = Integer.parseInt(dados[3]);
+                        int pageAtt = Integer.parseInt(dados[4]);
+                        int pagePar = Integer.parseInt(dados[5]);
+                        int duree = Integer.parseInt(dados[6]);
+                        int posX = Integer.parseInt(dados[7]);
+                        int posY = Integer.parseInt(dados[8]);
+                        boolean consomee = Boolean.parseBoolean(dados[9]);
+                        this.nourritures.add(new Nourriture(nome,degAtt,ptPar,pageAtt,pagePar,duree,new Point2D(posX,posY),consomee));}
+                    
+                    
+                    case "Lapin" ->{
+                        int ptVie = Integer.parseInt(dados[1]);
+                        int degAtt = Integer.parseInt(dados[2]);
+                        int ptPar = Integer.parseInt(dados[3]);
+                        int pageAtt = Integer.parseInt(dados[4]);
+                        int pagePar = Integer.parseInt(dados[5]);
+                        int posX = Integer.parseInt(dados[6]);
+                        int posY = Integer.parseInt(dados[7]);
+                        this.creatures.add(new Lapin(ptVie,degAtt,ptPar,pageAtt,pagePar,new Point2D(posX,posY)));
+                    }
+
+                    case "Loup" ->{
+                        int ptVie = Integer.parseInt(dados[1]);
+                        int degAtt = Integer.parseInt(dados[2]);
+                        int ptPar = Integer.parseInt(dados[3]);
+                        int pageAtt = Integer.parseInt(dados[4]);
+                        int pagePar = Integer.parseInt(dados[5]);
+                        int posX = Integer.parseInt(dados[6]);
+                        int posY = Integer.parseInt(dados[7]);
+                        this.creatures.add(new Loup(ptVie,degAtt,ptPar,pageAtt,pagePar,new Point2D(posX,posY)));
+                    }
+                    
+                    case "NuageToxique" ->{
+                        int ptVie = Integer.parseInt(dados[1]);
+                        int posX = Integer.parseInt(dados[6]);
+                        int posY = Integer.parseInt(dados[7]);
+                        this.creatures.add(new NuageToxique(ptVie,new Point2D(posX,posY)));
+                    }
+                    
+                    case "PotionSoin" ->{
+                        int ptVie = Integer.parseInt(dados[1]);
+                        int posX = Integer.parseInt(dados[6]);
+                        int posY = Integer.parseInt(dados[7]);
+                        this.objets.add(new PotionSoin(ptVie,new Point2D(posX,posY)));
+                    }
+                    
+                    case "Epee" ->{
+                        int degAtt = Integer.parseInt(dados[2]);
+                        int posX = Integer.parseInt(dados[6]);
+                        int posY = Integer.parseInt(dados[7]);
+                        this.objets.add(new Epee(degAtt,new Point2D(posX,posY)));
+                    }
+                    
+                    case "inventaire" ->{
+                        String type = dados[1];
+                        switch (type){
+                            case "Epee" ->{
+                                int degAtt = Integer.parseInt(dados[3]);
+                                int posX = Integer.parseInt(dados[7]);
+                                int posY = Integer.parseInt(dados[8]);
+                                this.inventaire.add(new Epee(degAtt,new Point2D(posX,posY)));
+                            }
+                            case "PotionSoin" ->{
+                                int ptVie = Integer.parseInt(dados[2]);
+                                int posX = Integer.parseInt(dados[7]);
+                                int posY = Integer.parseInt(dados[8]);
+                                this.inventaire.add(new PotionSoin(ptVie,new Point2D(posX,posY)));
+                            }
+                            case "Nourriture"->{
+                                String nome = dados[2];
+                                int degAtt = Integer.parseInt(dados[4]);
+                                int ptPar = Integer.parseInt(dados[5]);
+                                int pageAtt = Integer.parseInt(dados[6]);
+                                int pagePar = Integer.parseInt(dados[7]);
+                                int posX = Integer.parseInt(dados[8]);
+                                int posY = Integer.parseInt(dados[9]);
+                                int duree = Integer.parseInt(dados[10]);
+                                boolean consomee = Boolean.parseBoolean(dados[11]);
+                                this.inventaire.add(new Nourriture(nome,degAtt,ptPar,pageAtt,pagePar,duree,new Point2D(posX,posY),consomee));
+                            }
+                            default ->{
+                            }
+                        }
+                    }
+                    
+                    case "effets"->{
+                        String nome = dados[2];
+                        int degAtt = Integer.parseInt(dados[4]);
+                        int ptPar = Integer.parseInt(dados[5]);
+                        int pageAtt = Integer.parseInt(dados[6]);
+                        int pagePar = Integer.parseInt(dados[7]);
+                        int posX = Integer.parseInt(dados[8]);
+                        int posY = Integer.parseInt(dados[9]);
+                        int duree = Integer.parseInt(dados[10]);
+                        boolean consomee = Boolean.parseBoolean(dados[11]);
+                        this.effets.add(new Nourriture(nome,degAtt,ptPar,pageAtt,pagePar,duree,new Point2D(posX,posY),consomee));
+                    }
+                    
+                    case "Joueur" ->{
+                        String classe = dados[1];
+                        String nom = dados[2];
+                        int ptVie = Integer.parseInt(dados[3]);
+                        int degAtt = Integer.parseInt(dados[4]);
+                        int ptPar = Integer.parseInt(dados[5]);
+                        int pageAtt = Integer.parseInt(dados[6]);
+                        int pagePar = Integer.parseInt(dados[7]);
+                        int distAttMax = Integer.parseInt(dados[8]);
+                        int posX = Integer.parseInt(dados[9]);
+                        int posY = Integer.parseInt(dados[10]);
+                        int nbFleches = Integer.parseInt(dados[11]);
+                        switch (classe){
+                            case "Archer"->{
+                                this.joueur = new Archer(nom,ptVie,degAtt,ptPar,pageAtt,pagePar,distAttMax,nbFleches,new Point2D(posX,posY));
+                            }
+                            case "Guerrier"->{
+                                this.joueur = new Guerrier(nom,ptVie,degAtt,ptPar,pageAtt,pagePar,distAttMax,new Point2D(posX,posY));
+                            }
+                            default->{
+                            }
+                        }
+                    }
+                    
+                    default -> {
+                    }
+                }
+            }
+            
+            
+            this.grille = new ElemJeu[dim][dim];
+            //Placement
+            //Archers
+            int k=0;
+            while(k <this.creatures.size()){
+                this.grille[this.creatures.get(k).getpos().getX()][this.creatures.get(k).getpos().getY()]=this.creatures.get(k);
+                k++;
+            }
+            
+            
+            // Objets
+            k=0;
+            while(k <(this.objets.size())){
+                this.grille[this.objets.get(k).getpos().getX()][this.objets.get(k).getpos().getY()]=this.objets.get(k);
+                k++;
+            }
+            
+            
+            // Nourritures
+            k=0;
+            while(k <(this.nourritures.size())){
+                this.grille[this.nourritures.get(k).getpos().getX()][this.nourritures.get(k).getpos().getY()]=this.nourritures.get(k);
+                k++;
+            }
+            
+            //Joueur
+            this.grille[this.joueur.getpos().getX()][this.joueur.getpos().getY()]=this.joueur;
+            
+            
+            
+            System.out.println("Partie chargée avec succès à partir du fichier : " + nomFichier);
+            return true;
+        } catch (IOException e) {
+            System.err.println("Erreur lors du chargement de la partie.");
+            e.printStackTrace();
+            return false;
+        }}
+
+
+    /**
+     * Propose la possibilité de charger une sauvegarde existante au lancement de la partie.
+     * @return 
+     */
+    public boolean chargerSauvegardeAuLancement() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Voulez-vous charger une sauvegarde existante au lancement de la partie (Oui/Non) ? ");
+        String reponse = scanner.nextLine().toLowerCase();
+
+        if (reponse.equals("oui")) {
+            System.out.print("Entrez le nom du fichier de sauvegarde : ");
+            String nomFichier = scanner.nextLine();
+            return chargementPartie(nomFichier);
+            
+        }
+        else{
+        return false;
+        }
+    }
+
+
+}
+
 
 
 
